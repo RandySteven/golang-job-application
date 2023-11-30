@@ -18,6 +18,11 @@ func (_m *ApplicationHandler) ApplyApplication(c *gin.Context) {
 	_m.Called(c)
 }
 
+// GetAllApplications provides a mock function with given fields: c
+func (_m *ApplicationHandler) GetAllApplications(c *gin.Context) {
+	_m.Called(c)
+}
+
 // GetApplicationById provides a mock function with given fields: c
 func (_m *ApplicationHandler) GetApplicationById(c *gin.Context) {
 	_m.Called(c)

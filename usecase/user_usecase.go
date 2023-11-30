@@ -2,8 +2,12 @@ package usecase
 
 import (
 	"context"
+	"job-application/configs"
 	"job-application/entity/models"
 	"job-application/interfaces"
+	"time"
+
+	"github.com/golang-jwt/jwt/v5"
 )
 
 type userUsecase struct {
@@ -13,7 +17,31 @@ type userUsecase struct {
 
 // LoginUser implements interfaces.UserUsecase.
 func (usecase *userUsecase) LoginUser(ctx context.Context, email string, password string) (string, error) {
-	panic("unimplemented")
+	user, err := usecase.authRepo.GetByEmail(ctx, email)
+	if err != nil {
+		return "", err
+	}
+	if err != nil {
+		return "", err
+	}
+	// log.Println(user.Password)
+	// err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
+	// if err != nil {
+	// 	return "", err
+	// }
+	expTime := time.Now().Add(time.Minute * 15)
+	claims := &configs.JWTClaim{
+		ID:    user.ID,
+		Name:  user.User.Name,
+		Email: user.Email,
+		RegisteredClaims: jwt.RegisteredClaims{
+			Issuer:    "issuer",
+			ExpiresAt: jwt.NewNumericDate(expTime),
+		},
+	}
+	tokenAlgo := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+
+	return tokenAlgo.SignedString(configs.JWT_KEY)
 }
 
 // RegisterUser implements interfaces.UserUsecase.

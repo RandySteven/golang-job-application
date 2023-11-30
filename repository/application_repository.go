@@ -4,6 +4,7 @@ import (
 	"context"
 	"job-application/apperror"
 	"job-application/entity/models"
+	"job-application/enums"
 	"job-application/interfaces"
 	"job-application/query"
 
@@ -69,10 +70,14 @@ func (repo *applicationRepository) Save(ctx context.Context, application *models
 			return apperror.NewErrJobQuotaZero()
 		}
 
-		err = tx.Table("jobs").
+		job.Quota -= 1
+		updateQuota := tx.Table("jobs").
 			Where("id = ?", job.ID).
-			Update("quota", gorm.Expr("quota - ? ", 1)).
-			Error
+			Update("quota", job.Quota)
+		if job.Quota == 0 {
+			updateQuota.Update("status", enums.Closed)
+		}
+		err = updateQuota.Error
 		if err != nil {
 			return err
 		}
