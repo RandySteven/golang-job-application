@@ -1,0 +1,25 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "User Request",
+    "description": "Send user request",
+    "type": "object",
+    "properties": {
+       "name": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 32
+       },
+       "dateOfBirth": {
+          "type": "string",
+          "pattern": "dd/MM/yyyy"
+       }
+    },
+    "required": [
+        "name",
+        "dateOfBirth"
+    ],
+    "example": {
+        "name": "Randy",
+        "dateOfBirth": "22/02/2000"
+    }
+ }
