@@ -5,6 +5,7 @@ import (
 	"job-application/apperror"
 	"job-application/entity/models"
 	"job-application/interfaces"
+	"job-application/query"
 
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
@@ -12,6 +13,17 @@ import (
 
 type applicationRepository struct {
 	db *gorm.DB
+}
+
+// Find implements interfaces.ApplicationRepository.
+func (repo *applicationRepository) Find(ctx context.Context, clauses []query.WhereClause) ([]models.Application, error) {
+	var applications []models.Application
+	err := repo.db.WithContext(ctx).Model(&models.Application{}).
+		Find(&applications).Error
+	if err != nil {
+		return nil, err
+	}
+	return applications, nil
 }
 
 // GetApplicationByUserIdAndJobId implements interfaces.ApplicationRepository.

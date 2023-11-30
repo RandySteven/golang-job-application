@@ -32,5 +32,6 @@ type (
 		Save(ctx context.Context, application *models.Application) (*models.Application, error)
 		GetApplicationById(ctx context.Context, id uint) (*models.Application, error)
 		GetApplicationByUserIdAndJobId(ctx context.Context, userId uint, jobId uint) (*models.Application, error)
+		Find(ctx context.Context, clauses []query.WhereClause) ([]models.Application, error)
 	}
 )

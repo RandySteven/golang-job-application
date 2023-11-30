@@ -20,5 +20,6 @@ type (
 	ApplicationUsecase interface {
 		ApplyApplication(ctx context.Context, application *models.Application) (*models.Application, error)
 		GetApplicationById(ctx context.Context, id uint) (*models.Application, error)
+		GetAllApplications(ctx context.Context, clauses []query.WhereClause) ([]models.Application, error)
 	}
 )

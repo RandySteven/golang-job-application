@@ -17,5 +17,6 @@ type (
 	ApplicationHandler interface {
 		ApplyApplication(c *gin.Context)
 		GetApplicationById(c *gin.Context)
+		GetAllApplications(c *gin.Context)
 	}
 )

@@ -16,6 +16,24 @@ type ApplicationHandler struct {
 	usecase interfaces.ApplicationUsecase
 }
 
+// GetAllApplications implements interfaces.ApplicationHandler.
+func (handler *ApplicationHandler) GetAllApplications(c *gin.Context) {
+	requestId := uuid.NewString()
+	ctx := context.WithValue(c.Request.Context(), "request_id", requestId)
+
+	applications, err := handler.usecase.GetAllApplications(ctx, nil)
+	if err != nil {
+		return
+	}
+
+	resp := payload.Response{
+		Message: "Get all applications",
+		Data:    applications,
+	}
+
+	c.JSON(http.StatusOK, resp)
+}
+
 // GetApplicationById implements interfaces.ApplicationHandler.
 func (handler *ApplicationHandler) GetApplicationById(c *gin.Context) {
 	id := c.Param("id")

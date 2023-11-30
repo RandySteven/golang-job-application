@@ -6,10 +6,16 @@ import (
 	"job-application/entity/models"
 	"job-application/enums"
 	"job-application/interfaces"
+	"job-application/query"
 )
 
 type applicationUsecase struct {
 	repo interfaces.ApplicationRepository
+}
+
+// GetAllApplications implements interfaces.ApplicationUsecase.
+func (usecase *applicationUsecase) GetAllApplications(ctx context.Context, clauses []query.WhereClause) ([]models.Application, error) {
+	return usecase.repo.Find(ctx, clauses)
 }
 
 // GetApplicationById implements interfaces.ApplicationUsecase.
