@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"job-application/middleware"
 	"log"
 	"net/http"
 	"os"
@@ -19,8 +20,8 @@ func main() {
 	}
 	r := gin.Default()
 	r.ContextWithFallback = true
-	// r.Use(middleware.LoggerMiddleware())
-	// r.Use(middleware.ErrorMiddleware())
+	r.Use(middleware.LoggerMiddleware())
+	r.Use(middleware.ErrorMiddleware())
 
 	handlers := InitHandlers()
 

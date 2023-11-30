@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"context"
+	"fmt"
 	"job-application/apperror"
 	"job-application/entity/models"
 	"job-application/entity/payload"
@@ -10,6 +11,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 	"github.com/google/uuid"
 )
 
@@ -82,8 +84,11 @@ func (handler *UserHandler) RegisterUser(c *gin.Context) {
 	var request *payload.UserRequest
 
 	if err := c.ShouldBind(&request); err != nil {
-		c.Error(err)
-		return
+		for _, fieldErr := range err.(validator.ValidationErrors) {
+			errMsg := fmt.Sprintf("%s field is %s", fieldErr.Field(), fieldErr.ActualTag())
+			c.Error(fmt.Errorf("%s", errMsg))
+			return
+		}
 	}
 
 	user := &models.User{
