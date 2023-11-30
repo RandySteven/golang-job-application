@@ -4,6 +4,7 @@ import (
 	"context"
 	"job-application/entity/models"
 	"job-application/entity/payload"
+	"job-application/enums"
 	"job-application/interfaces"
 	"net/http"
 	"strconv"
@@ -72,6 +73,7 @@ func (handler *ApplicationHandler) ApplyApplication(c *gin.Context) {
 	application := &models.Application{
 		UserID: request.UserID,
 		JobID:  request.JobID,
+		Status: enums.Applied,
 	}
 
 	application, err := handler.usecase.ApplyApplication(ctx, application)
