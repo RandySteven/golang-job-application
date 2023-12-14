@@ -45,6 +45,12 @@ func NewRepository(config *models.Config) (*Repository, error) {
 }
 
 func (r *Repository) Automigrate() error {
+	r.db.Migrator().DropTable(&models.User{})
+	r.db.Migrator().DropTable(&models.Auth{})
+	r.db.Migrator().DropTable(&models.Job{})
+	r.db.Migrator().DropTable(&models.UserJob{})
+	r.db.Migrator().DropTable(&models.Application{})
+
 	return r.db.AutoMigrate(
 		&models.User{},
 		&models.Auth{},
