@@ -21,16 +21,22 @@ func AppPort() string {
 	return os.Getenv("APP_PORT")
 }
 
-func InitHandlers() *server.Handlers {
+func InitRepository() (*configs.Repository, error) {
 	config := InitConfig()
 
-	repository, err := configs.NewRepository(config)
+	return configs.NewRepository(config)
+}
+
+func InitHandlers() *server.Handlers {
+
+	repository, err := InitRepository()
+
 	if err != nil {
 		log.Println(err)
 		return nil
 	}
 
-	err = repository.Automigrate()
+	// err = repository.Automigrate()
 	if err != nil {
 		return nil
 	}
@@ -41,21 +47,4 @@ func InitHandlers() *server.Handlers {
 	}
 
 	return handlers
-}
-
-func InitRepository() *configs.Repository {
-	config := InitConfig()
-
-	repository, err := configs.NewRepository(config)
-	if err != nil {
-		log.Println(err)
-		return nil
-	}
-
-	err = repository.Automigrate()
-	if err != nil {
-		return nil
-	}
-
-	return repository
 }

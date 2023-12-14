@@ -1,0 +1,10 @@
+proto < ./../proto/job_application.proto
+@host=http://localhost:50053
+
+GRPC /job_application.UserService/RegisterUser
+{
+    "name": "Randy Steven",
+    "birthdate": "2001-01-01",
+    "email": "randy.steven2@gmail.com",
+    "password": "test_1234"
+}

@@ -53,3 +53,7 @@ func (r *Repository) Automigrate() error {
 		&models.Application{},
 	)
 }
+
+func (r *Repository) GetConnection() *gorm.DB {
+	return r.db
+}

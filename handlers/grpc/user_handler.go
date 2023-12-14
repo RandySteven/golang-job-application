@@ -5,6 +5,7 @@ import (
 	"job-application/entity/models"
 	"job-application/interfaces"
 	pb "job-application/proto"
+	"time"
 )
 
 type UserHandler struct {
@@ -13,8 +14,13 @@ type UserHandler struct {
 }
 
 func (h *UserHandler) RegisterUser(ctx context.Context, req *pb.UserRequest) (*pb.UserProfile, error) {
+	date, err := time.Parse("2006-01-02", req.Birthdate)
+	if err != nil {
+		return nil, err
+	}
 	user := &models.User{
-		Name: req.Name,
+		Name:        req.Name,
+		DateOfBirth: date,
 	}
 
 	auth := &models.Auth{
@@ -22,7 +28,7 @@ func (h *UserHandler) RegisterUser(ctx context.Context, req *pb.UserRequest) (*p
 		Password: req.Password,
 	}
 
-	auth, err := h.usecase.RegisterUser(ctx, user, auth)
+	auth, err = h.usecase.RegisterUser(ctx, user, auth)
 	if err != nil {
 		return nil, err
 	}

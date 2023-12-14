@@ -28,7 +28,10 @@ func main() {
 
 	server := grpc.NewServer(opt...)
 
-	repository := cmd.InitRepository()
+	repository, err := cmd.InitRepository()
+	if err != nil {
+		return
+	}
 	usecase := usecase.NewUsecase(*repository)
 
 	userHandler := handler_grpc.NewUserHandler(usecase.UserUsecase)
