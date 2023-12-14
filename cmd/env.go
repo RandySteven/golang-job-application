@@ -1,4 +1,4 @@
-package main
+package cmd
 
 import (
 	"job-application/configs"
@@ -41,4 +41,21 @@ func InitHandlers() *server.Handlers {
 	}
 
 	return handlers
+}
+
+func InitRepository() *configs.Repository {
+	config := InitConfig()
+
+	repository, err := configs.NewRepository(config)
+	if err != nil {
+		log.Println(err)
+		return nil
+	}
+
+	err = repository.Automigrate()
+	if err != nil {
+		return nil
+	}
+
+	return repository
 }

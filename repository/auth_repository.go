@@ -28,7 +28,7 @@ func (repo *AuthRepository) GetUserAuth(ctx context.Context, userId uint) (*mode
 // GetByEmailAndPassword implements interfaces.AuthRepository.
 func (repo *AuthRepository) GetByEmail(ctx context.Context, email string) (*models.Auth, error) {
 	var auth *models.Auth
-	err := repo.db.Scan(&auth).Where("email = ? ", email).Error
+	err := repo.db.Model(&models.Auth{}).Where("email = ? ", email).Find(&auth).Error
 	if err != nil {
 		return nil, err
 	}

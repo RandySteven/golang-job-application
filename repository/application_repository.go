@@ -92,6 +92,10 @@ func (repo *applicationRepository) Save(ctx context.Context, application *models
 	return application, err
 }
 
+func (repo *applicationRepository) UpdateApplicationStatus(ctx context.Context, id uint, status string) (*models.Application, error) {
+	return nil, nil
+}
+
 func NewApplicationRepository(db *gorm.DB) *applicationRepository {
 	return &applicationRepository{db: db}
 }

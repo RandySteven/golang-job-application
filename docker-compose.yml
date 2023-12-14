@@ -1,0 +1,40 @@
+version: "3.8"
+
+networks: 
+  job_application_network: 
+    driver: bridge
+
+services:
+  job-api:
+    image: job-api
+    ports:
+      - 8080:8080
+    build:
+      dockerfile: app.dockerfile
+    env_file:
+      - .env
+    networks:
+      job_application_network:
+    depends_on:
+      db:
+        condition: service_healthy
+  db:
+    image: postgres:latest
+    container_name: postgres_job_application
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./db/pg_data:/var/lib/postgresql/data
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Guboj=25
+      POSTGRES_DB: job_application_db
+      ports: 5433:5432
+    networks:
+      job_application_network:

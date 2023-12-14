@@ -2,7 +2,7 @@ package server
 
 import (
 	"job-application/configs"
-	"job-application/handlers"
+	rest "job-application/handlers/rest"
 	"job-application/interfaces"
 	"job-application/usecase"
 )
@@ -19,8 +19,8 @@ func NewHandlers(repo configs.Repository) (*Handlers, error) {
 	usecase := usecase.NewUsecase(repo)
 
 	return &Handlers{
-		JobHandler:         handlers.NewJobHandler(usecase.JobUsecase),
-		UserHandler:        handlers.NewUserHandler(usecase.UserUsecase),
-		ApplicationHandler: handlers.NewApplicationHandler(usecase.ApplicationUsecase),
+		JobHandler:         rest.NewJobHandler(usecase.JobUsecase),
+		UserHandler:        rest.NewUserHandler(usecase.UserUsecase),
+		ApplicationHandler: rest.NewApplicationHandler(usecase.ApplicationUsecase),
 	}, nil
 }

@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"job-application/cmd"
 	"job-application/middleware"
 	"log"
 	"net/http"
@@ -23,7 +24,7 @@ func main() {
 	r.Use(middleware.LoggerMiddleware())
 	r.Use(middleware.ErrorMiddleware())
 
-	handlers := InitHandlers()
+	handlers := cmd.InitHandlers()
 
 	v1 := r.Group("/v1")
 	v1.POST("/register", handlers.UserHandler.RegisterUser)
@@ -32,7 +33,7 @@ func main() {
 	handlers.InitRouter(v1)
 
 	srv := http.Server{
-		Addr:    ":" + AppPort(),
+		Addr:    ":" + cmd.AppPort(),
 		Handler: r,
 	}
 

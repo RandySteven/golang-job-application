@@ -1,9 +1,9 @@
-package handlers_test
+package handlers_rest_test
 
 import (
 	"errors"
 	"job-application/entity/models"
-	"job-application/handlers"
+	rest "job-application/handlers/rest"
 	"job-application/middleware"
 	"job-application/mocks"
 	"net/http"
@@ -19,7 +19,7 @@ import (
 type UserHandlerTestSuite struct {
 	suite.Suite
 	userUseCase *mocks.UserUsecase
-	userHandler *handlers.UserHandler
+	userHandler *rest.UserHandler
 	router      *gin.Engine
 }
 
@@ -46,7 +46,7 @@ var auths = []models.Auth{
 
 func (suite *UserHandlerTestSuite) SetupSubTest() {
 	suite.userUseCase = mocks.NewUserUsecase(suite.T())
-	suite.userHandler = handlers.NewUserHandler(suite.userUseCase)
+	suite.userHandler = rest.NewUserHandler(suite.userUseCase)
 	suite.router = gin.Default()
 	suite.router.Use(middleware.ErrorMiddleware())
 }

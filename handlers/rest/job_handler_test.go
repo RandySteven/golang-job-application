@@ -1,7 +1,7 @@
-package handlers_test
+package handlers_rest_test
 
 import (
-	"job-application/handlers"
+	rest "job-application/handlers/rest"
 	"job-application/middleware"
 	"job-application/mocks"
 	"testing"
@@ -13,13 +13,13 @@ import (
 type JobHandlerTestSuite struct {
 	suite.Suite
 	jobUsecase *mocks.JobUsecase
-	jobHandler *handlers.JobHandler
+	jobHandler *rest.JobHandler
 	router     *gin.Engine
 }
 
 func (suite *JobHandlerTestSuite) SetupSubTest() {
 	suite.jobUsecase = mocks.NewJobUsecase(suite.T())
-	suite.jobHandler = handlers.NewJobHandler(suite.jobUsecase)
+	suite.jobHandler = rest.NewJobHandler(suite.jobUsecase)
 	suite.router = gin.Default()
 	suite.router.Use(middleware.ErrorMiddleware())
 }

@@ -21,9 +21,6 @@ func (usecase *userUsecase) LoginUser(ctx context.Context, email string, passwor
 	if err != nil {
 		return "", err
 	}
-	if err != nil {
-		return "", err
-	}
 	// log.Println(user.Password)
 	// err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
 	// if err != nil {
