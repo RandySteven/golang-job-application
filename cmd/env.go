@@ -36,7 +36,7 @@ func InitHandlers() *server.Handlers {
 		return nil
 	}
 
-	// err = repository.Automigrate()
+	err = repository.Automigrate()
 	if err != nil {
 		return nil
 	}

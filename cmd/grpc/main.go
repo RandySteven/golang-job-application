@@ -29,6 +29,7 @@ func main() {
 	server := grpc.NewServer(opt...)
 
 	repository, err := cmd.InitRepository()
+	repository.Automigrate()
 	if err != nil {
 		return
 	}

@@ -1,4 +1,4 @@
-FROM golang:1.18.10-alpine as builder
+FROM golang:1.18.10-alpine
 
 WORKDIR /app/rest
 
@@ -11,21 +11,21 @@ RUN go mod download && go mod verify
 
 COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o migrate ./cmd/migrate/
+# RUN CGO_ENABLED=0 GOOS=linux go build -o migrate ./cmd/migrate/
 RUN CGO_ENABLED=0 GOOS=linux go build -o main ./cmd/rest/
 
-FROM alpine:3 as migration
+# FROM alpine:3 as migration
 
-COPY --from=rest /app/migrate /app/
-COPY --from=rest /app/Makefile /app/
+# COPY --from=rest /app/migrate /app/
+# COPY --from=rest /app/Makefile /app/
 
-CMD make migrate_docker
+# CMD make migrate_docker
 
-FROM alpine:3 as migration
+# FROM alpine:3 as migration
 
-WORKDIR /app/rest
+# WORKDIR /app/rest
 
-COPY --from=builder /app/rest /app/
+# COPY --from=builder /app/rest /app/
 
 EXPOSE 8080
 

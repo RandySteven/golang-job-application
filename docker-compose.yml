@@ -61,17 +61,17 @@ services:
     networks:
       job_application_network:
   
-  migration:
-    container_name: migration_job
-    build:
-      context: .
-      target: "migration"
-    env_file:
-      - .env
-    depends_on:
-      db:
-        condition: service_healthy
-    networks:
-      job_application_network:
-    links:
-      - "db:db"
+  # migration:
+  #   container_name: migration_job
+  #   build:
+  #     context: .
+  #     target: "migration"
+  #   env_file:
+  #     - .env
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
+  #   networks:
+  #     job_application_network:
+  #   links:
+  #     - "db:db"

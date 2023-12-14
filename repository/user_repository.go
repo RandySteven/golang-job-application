@@ -16,6 +16,7 @@ type UserRepository struct {
 
 // RegistertUser implements interfaces.UserRepository.
 func (repo *UserRepository) RegistertUser(ctx context.Context, request *payload.UserRequest) (*models.User, error) {
+	repo.db.Exec("SELECT pg_sleep(5)")
 	user := &models.User{
 		Name: request.Name,
 	}
